@@ -5,6 +5,8 @@ import { Modal } from "antd";
 import { loadUser } from "../action/authaction";
 import "./Profile.css";
 import { updateuser } from "../action/useraction";
+import styled, { ThemeProvider } from "styled-components";
+import { lightTheme, darkTheme, GlobalStyles } from "./Theme.js";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -47,6 +49,16 @@ const Profile = () => {
    console.log(subscribed)
 
   }
+  const StyledApp = styled.div`
+   color: ${(props) => props.theme.fontColor};
+  `;
+
+
+  const [theme, setTheme] = useState("light");
+
+  const themeToggler = () => {
+    theme === "light" ? setTheme("dark") : setTheme("light");
+  };
 
   return (
     <div>
@@ -70,7 +82,17 @@ const Profile = () => {
               <button class="btn profile-edit-btn" onClick={handleclick}>
               {subscribed ? "Follow" : "Unfollow"}
               </button>
+
+     <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+      <GlobalStyles />
+      <StyledApp>
+        
+        <button class="btn profile-edit-btn" onClick={() => themeToggler()}>Change Theme</button>
+      </StyledApp>
+    </ThemeProvider>
+
             </div>
+            
 
             <div>
               <Modal
